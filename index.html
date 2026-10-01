@@ -61,42 +61,53 @@
     <p id="status"></p>
 
     <script>
-   navigator.geolocation.getCurrentPosition(
-    function(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        statusText.innerText = "Location acquired! Opening email...";
+function generateReport() {
+    const statusText = document.getElementById("status");
+    statusText.innerText = "Fetching your location...";
 
-        // Grab the current date and time from the user's device clock
-        const currentDateTime = new Date().toLocaleString(); 
-
-        // 🛑 Make sure this is still set to your personal email address for testing!
-        const emailTo = "james.ockenden@gmail.com"; 
-        
-        // NEW: Dynamically inserting the date/time into the subject line
-        const subjectText = `Dangerous parking at ${currentDateTime}`;
-        const subject = encodeURIComponent(subjectText);
-        
-        // NEW: Your custom message body structure
-        const bodyText = `Dear Transport Complaints Department,
-
-I would like to report an incident of dangerous illegal parking.
-
-📅 Date & Time: ${currentDateTime}
-📍 Google Maps Location: https://google.com{lat},${lon}
-
-[Please type any additional vehicle details, like license plate or color, right here before sending]`;
-
-        const emailBody = encodeURIComponent(bodyText);
-
-        window.location.href = `mailto:${emailTo}?subject=${subject}&body=${emailBody}`;
-    }, 
-    function() {
-        statusText.innerText = "Unable to retrieve your location. Please check your privacy permissions.";
+    if (!navigator.geolocation) {
+        statusText.innerText = "Geolocation is not supported by your browser.";
+        return;
     }
-);
 
-    </script>
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            try {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                statusText.innerText = "Location acquired! Opening email...";
+
+                const currentDateTime = new Date().toLocaleString(); 
+
+                // 🛑 Double-check that your testing email here is wrapped in quotes!
+                const emailTo = "james.ockenden@gmail.com"; 
+                
+                const subjectText = "Dangerous parking at " + currentDateTime;
+                const subject = encodeURIComponent(subjectText);
+                
+                // Using clean, standard strings with \n for line breaks to prevent script errors
+                let bodyText = "Dear Transport Complaints Unit,\n\n";
+                bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
+                bodyText += "📅 Date & Time: " + currentDateTime + "\n";
+                bodyText += "📍 Google Maps Location: https://google.com" + lat + "," + lon + "\n\n";
+                bodyText += "[Please type any additional vehicle details, like license plate or color, right here before sending]";
+
+                const emailBody = encodeURIComponent(bodyText);
+
+                // This triggers the native device email app
+                window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
+            } 
+            catch (error) {
+                statusText.innerText = "Error building email layout: " + error.message;
+            }
+        }, 
+        function(error) {
+            statusText.innerText = "Unable to retrieve your location. Error code: " + error.code;
+        }
+    );
+}
+</script>
+
 
 </body>
 </html>
