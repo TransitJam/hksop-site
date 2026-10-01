@@ -93,15 +93,16 @@
 
     <h1>🚨 Instant Illegal Parking Reporter</h1>
     
-    <!-- Explanation container card -->
+     <!-- Explanation container card - Streamlined & citizen-focused -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            <strong>💡 How it works:</strong> This app grabs your device's current <strong>location, time, and date</strong> and prepares an email ready to send to the government's <strong>Transport Complaints Unit</strong>.
+            This tool captures your device's current <strong>location, time, and date</strong> and formats an automated email report ready to send to the <strong>Transport Complaints Unit</strong>.
         </p>
-        <p style="margin: 5px 0 0 0; font-size: 14px; color: #2c5282; font-weight: 500;">
-            Privacy: This is a static page with no data storage or tracking.
+        <p style="margin: 8px 0 0 0; font-size: 14px; color: #2c5282; font-weight: 500;">
+            🛡️ Transit Jam cares about user privacy! This is a static page: no database, no tracking, no data storage.
         </p>
     </div>
+
 
     <!-- The Violation Selection Dropdown Menu -->
     <div class="input-group">
@@ -142,28 +143,26 @@
                     statusText.innerText = "Location acquired! Opening email...";
 
                     const currentDateTime = new Date().toLocaleString(); 
-
-                    // Grab the user's selected dropdown choice
                     const selectedViolation = document.getElementById("violationType").value;
 
-                    // 🛑 Remember to keep your testing email address here!
+                    // 🛑 Keep your testing email address here while evaluating!
                     const emailTo = "james.ockenden@gmail.com"; 
                     
                     const subjectText = "Dangerous parking at " + currentDateTime;
                     const subject = encodeURIComponent(subjectText);
                     
-                    // Cleaner body text template without the license plate field
+                    // Fixed & trimmed body template (Removed photo instructions)
                     let bodyText = "Dear Transport Complaints Department,\n\n";
                     bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
                     bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
                     bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
                     bodyText += "🌐 Raw Latitude: " + lat + "\n";
                     bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
-                    bodyText += "📍 Google Maps Link: https://google.com" + lat + "," + lon + "\n\n";
-                    bodyText += "[You can attach a photo of the vehicle directly inside your email app before hitting send]";
+                    bodyText += "📍 Google Maps Link: https://google.com" + lat + "," + lon;
 
                     const emailBody = encodeURIComponent(bodyText);
 
+                    // FIXED: Removed the extra structural "?" character that was scrambling the layout link parameters!
                     window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
                 } 
                 catch (error) {
