@@ -124,52 +124,58 @@
 
     <script>
     function generateReport() {
-        const statusText = document.getElementById("status");
-        statusText.innerText = "Fetching your location...";
+    const statusText = document.getElementById("status");
+    statusText.innerText = "Fetching your location...";
 
-        if (!navigator.geolocation) {
-            statusText.innerText = "Geolocation is not supported by your browser.";
-            return;
-        }
-
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                try {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    statusText.innerText = "Location acquired! Opening email...";
-
-                    const currentDateTime = new Date().toLocaleString(); 
-                    const selectedViolation = document.getElementById("violationType").value;
-
-                    // 🛑 Keep your testing email address here while evaluating!
-                    const emailTo = "james.ockenden@gmail.com"; 
-                    
-                    const subjectText = "Dangerous parking at " + currentDateTime;
-                    const subject = encodeURIComponent(subjectText);
-                    
-                    // Fixed & trimmed body template (Removed photo instructions)
-                    let bodyText = "Dear Transport Complaints Department,\n\n";
-                    bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
-                    bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
-                    bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
-                    bodyText += "🌐 Raw Latitude: " + lat + "\n";
-                    bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
-
-                    const emailBody = encodeURIComponent(bodyText);
-
-                    // FIXED: Removed the extra structural "?" character that was scrambling the layout link parameters!
-                    window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
-                } 
-                catch (error) {
-                    statusText.innerText = "Error building email layout: " + error.message;
-                }
-            }, 
-            function(error) {
-                statusText.innerText = "Unable to retrieve your location. Error code: " + error.code;
-            }
-        );
+    if (!navigator.geolocation) {
+        statusText.innerText = "Geolocation is not supported by your browser.";
+        return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            try {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                statusText.innerText = "Location acquired! Opening email...";
+
+                const currentDateTime = new Date().toLocaleString(); 
+                const selectedViolation = document.getElementById("violationType").value;
+
+                // 🛑 Keep your testing email address here while evaluating!
+                const emailTo = "james.ockenden@gmail.com"; 
+                
+                const subjectText = "Dangerous parking at " + currentDateTime;
+                const subject = encodeURIComponent(subjectText);
+                
+                let bodyText = "Dear Transport Complaints Department,\n\n";
+                bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
+                bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
+                bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
+                bodyText += "🌐 Raw Latitude: " + lat + "\n";
+                bodyText += "🌐 Raw Longitude: " + lon;
+
+                const emailBody = encodeURIComponent(bodyText);
+
+                // This launches the mail application
+                window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
+
+                // NEW: A 3-second timer subroutine that runs in the background.
+                // It resets the text right after the mail client opens, so when they bounce back, the screen is clean!
+                setTimeout(function() {
+                    statusText.innerText = ""; // Wipes the text completely blank
+                }, 3000); // 3000 milliseconds = 3 seconds
+            } 
+            catch (error) {
+                statusText.innerText = "Error building email layout: " + error.message;
+            }
+        }, 
+        function(error) {
+            statusText.innerText = "Unable to retrieve your location. Error code: " + error.code;
+        }
+    );
+}
+
     </script>
 
 </body>
