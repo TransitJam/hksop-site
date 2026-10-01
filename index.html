@@ -14,6 +14,18 @@
             background-color: #f7fafc;
             color: #2d3748;
         }
+        nav {
+            padding: 12px;
+            background-color: #edf2f7;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        nav a, nav strong {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #2b6cb0;
+        }
         h1 {
             font-size: 28px;
             margin-bottom: 10px;
@@ -24,7 +36,6 @@
             line-height: 1.5;
             margin-bottom: 25px;
         }
-        /* Styling for our new input field box */
         .input-group {
             margin-bottom: 25px;
             text-align: left;
@@ -35,15 +46,16 @@
             margin-bottom: 8px;
             color: #4a5568;
         }
-        input[type="text"] {
+        select {
             width: 100%;
             padding: 12px;
             font-size: 16px;
             border: 2px solid #cbd5e0;
             border-radius: 6px;
             box-sizing: border-box;
+            background-color: white;
         }
-        input[type="text"]:focus {
+        select:focus {
             border-color: #e53e3e;
             outline: none;
         }
@@ -59,6 +71,7 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: background 0.2s;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #c53030;
@@ -72,23 +85,36 @@
 </head>
 <body>
 
-    <body>
+    <!-- Navigation Menu Bar -->
+    <nav>
+        <strong>🚨 Report Tool</strong> | 
+        <a href="about.html">ℹ️ About Us</a>
+    </nav>
 
     <h1>🚨 Instant Illegal Parking Reporter</h1>
     
-    <!-- NEW: Clear explanation container card -->
+    <!-- Explanation container card -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            <strong>How it works:</strong> This app grabs your device's current <strong>location, time, and date</strong> (along with optional manual <strong>license plate</strong> entry) and prepares an complete email report ready to send to the government's <strong>Transport Complaints Unit</strong>. This is a static page with no data storage or tracking.
+            <strong>💡 How it works:</strong> This app grabs your device's current <strong>location, time, and date</strong> and prepares an email ready to send to the government's <strong>Transport Complaints Unit</strong>.
+        </p>
+        <p style="margin: 5px 0 0 0; font-size: 14px; color: #2c5282; font-weight: 500;">
+            Privacy: This is a static page with no data storage or tracking.
         </p>
     </div>
 
-    <!-- The License Plate Input Field Box (Kept exactly as before) -->
+    <!-- The Violation Selection Dropdown Menu -->
     <div class="input-group">
-        <label for="plateNumber">🚗 Vehicle License Plate (Optional):</label>
-        <input type="text" id="plateNumber" placeholder="e.g., AB 1234">
+        <label for="violationType">⚠️ Type of Violation:</label>
+        <select id="violationType">
+            <option value="Double Parking">Double Parking</option>
+            <option value="Pavement Obstruction">Pavement Obstruction</option>
+            <option value="Pedestrian Crossing Obstruction">Pedestrian Crossing Obstruction</option>
+            <option value="Restricted Zone Parking">Restricted Zone Parking</option>
+            <option value="Unpaid Meter / Expired Meter">Unpaid Meter</option>
+            <option value="Other Illegal Parking / Obstruction">Other</option>
+        </select>
     </div>
-
 
     <!-- The Trigger Button -->
     <button id="reportBtn" onclick="generateReport()">
@@ -117,14 +143,8 @@
 
                     const currentDateTime = new Date().toLocaleString(); 
 
-                    // NEW: Grab whatever text the user typed inside the input box
-                    const userPlate = document.getElementById("plateNumber").value.trim();
-                    
-                    // Create a string to hold the plate details if they typed one
-                    let plateDetailText = "Not provided";
-                    if (userPlate !== "") {
-                        plateDetailText = userPlate.toUpperCase(); // Converts to clean uppercase!
-                    }
+                    // Grab the user's selected dropdown choice
+                    const selectedViolation = document.getElementById("violationType").value;
 
                     // 🛑 Remember to keep your testing email address here!
                     const emailTo = "james.ockenden@gmail.com"; 
@@ -132,23 +152,19 @@
                     const subjectText = "Dangerous parking at " + currentDateTime;
                     const subject = encodeURIComponent(subjectText);
                     
-// Appending the captured plate details directly into the report template
-let bodyText = "Dear Transport Complaints Department,\n\n";
-bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
-bodyText += "🚗 Vehicle License Plate: " + plateDetailText + "\n";
-bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
-
-// Providing raw numerical coordinates first for strict government networks
-bodyText += "🌐 Raw Latitude: " + lat + "\n";
-bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
-
-// CORRECTED: Flawless URL string layout for Google Maps pinpoints
-bodyText += "📍 Google Maps Link: https://www.google.com/maps?q=" + lat + "," + lon + "\n\n";
-
+                    // Cleaner body text template without the license plate field
+                    let bodyText = "Dear Transport Complaints Department,\n\n";
+                    bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
+                    bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
+                    bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
+                    bodyText += "🌐 Raw Latitude: " + lat + "\n";
+                    bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
+                    bodyText += "📍 Google Maps Link: https://google.com" + lat + "," + lon + "\n\n";
+                    bodyText += "[You can attach a photo of the vehicle directly inside your email app before hitting send]";
 
                     const emailBody = encodeURIComponent(bodyText);
 
-                    window.location.href = "mailto:" + emailTo + "?subject=" + subject + "?&body=" + emailBody;
+                    window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
                 } 
                 catch (error) {
                     statusText.innerText = "Error building email layout: " + error.message;
