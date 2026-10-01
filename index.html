@@ -1,37 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- This line right here fixes the scrambled emoji symbols! -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Parking Reporter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        button {
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #c53030;
+        }
+        #status {
+            margin-top: 20px;
+            font-style: italic;
+            color: #718096;
+        }
+    </style>
+</head>
 <body>
 
     <h1>🚨 Instant Illegal Parking Reporter</h1>
     <p>Tap the button below to fetch your current location and prepare a report email.</p>
 
-    <!-- 1. The Trigger Button -->
-    <button id="reportBtn" onclick="generateReport()" style="padding: 15px 30px; font-size: 18px; background-color: #e53e3e; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    <!-- The Trigger Button -->
+    <button id="reportBtn" onclick="generateReport()">
         📍 Generate Report Email
     </button>
 
-    <!-- 2. Status message to tell the user what's happening -->
-    <p id="status" style="color: #4a5568; font-style: italic;"></p>
+    <!-- Status message area -->
+    <p id="status"></p>
 
-    <!-- 3. The Logic Subroutine (JavaScript) -->
     <script>
-    // Run the browser's built-in GPS locator
-navigator.geolocation.getCurrentPosition(
-    // Success Routine
+   navigator.geolocation.getCurrentPosition(
     function(position) {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         statusText.innerText = "Location acquired! Opening email...";
 
-        // NEW: Grab the current date and time from the user's device clock
+        // Grab the current date and time from the user's device clock
         const currentDateTime = new Date().toLocaleString(); 
 
-        // Create the destination email, subject, and body templates
-        const emailTo = "tellme@1823.gov.hk"; 
-        const subject = encodeURIComponent("Report of Vehicle Obstruction / Illegal Parking");
+        // 🛑 Make sure this is still set to your personal email address for testing!
+        const emailTo = "james.ockenden@gmail.com"; 
         
-        // Updated email template to include the automated timestamp
-        const bodyText = `Hello,
+        // NEW: Dynamically inserting the date/time into the subject line
+        const subjectText = `Dangerous parking at ${currentDateTime}`;
+        const subject = encodeURIComponent(subjectText);
+        
+        // NEW: Your custom message body structure
+        const bodyText = `Dear Transport Complaints Department,
 
-I would like to report an illegal parking / vehicle obstruction incident.
+I would like to report an incident of dangerous illegal parking.
 
 📅 Date & Time: ${currentDateTime}
 📍 Google Maps Location: https://google.com{lat},${lon}
@@ -40,10 +89,8 @@ I would like to report an illegal parking / vehicle obstruction incident.
 
         const emailBody = encodeURIComponent(bodyText);
 
-        // This triggers the native device email app (The 'mailto' link)
         window.location.href = `mailto:${emailTo}?subject=${subject}&body=${emailBody}`;
     }, 
-    // Error Routine (if user blocks GPS access)
     function() {
         statusText.innerText = "Unable to retrieve your location. Please check your privacy permissions.";
     }
@@ -52,3 +99,4 @@ I would like to report an illegal parking / vehicle obstruction incident.
     </script>
 
 </body>
+</html>
