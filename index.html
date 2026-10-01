@@ -118,7 +118,7 @@
                     }
 
                     // 🛑 Remember to keep your testing email address here!
-                    const emailTo = "yourname@example.com"; 
+                    const emailTo = "james.ockenden@gmail.com"; 
                     
                     const subjectText = "Dangerous parking at " + currentDateTime;
                     const subject = encodeURIComponent(subjectText);
@@ -129,13 +129,13 @@ bodyText += "I would like to report an incident of dangerous illegal parking.\n\
 bodyText += "🚗 Vehicle License Plate: " + plateDetailText + "\n";
 bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
 
-// NEW: Providing raw numerical coordinates first for strict government networks
+// Providing raw numerical coordinates first for strict government networks
 bodyText += "🌐 Raw Latitude: " + lat + "\n";
 bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
 
-// CORRECTED: Perfect universal Google Maps formatting (?q=lat,lon)
-bodyText += "📍 Google Maps Link: https://google.com" + lat + "," + lon + "\n\n";
-bodyText += "[You can attach a photo of the vehicle directly inside your email app before hitting send]";
+// CORRECTED: Flawless URL string layout for Google Maps pinpoints
+bodyText += "📍 Google Maps Link: https://www.google.com/maps?q=" + lat + "," + lon + "\n\n";
+
 
                     const emailBody = encodeURIComponent(bodyText);
 
