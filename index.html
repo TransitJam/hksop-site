@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- This line right here fixes the scrambled emoji symbols! -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instant Parking Reporter</title>
@@ -23,9 +22,33 @@
             color: #4a5568;
             font-size: 16px;
             line-height: 1.5;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+        }
+        /* Styling for our new input field box */
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            border-color: #e53e3e;
+            outline: none;
         }
         button {
+            width: 100%;
             padding: 16px 32px;
             font-size: 18px;
             font-weight: bold;
@@ -50,7 +73,13 @@
 <body>
 
     <h1>🚨 Instant Illegal Parking Reporter</h1>
-    <p>Tap the button below to fetch your current location and prepare a report email.</p>
+    <p>Enter the vehicle details, then tap the button below to generate your automatic report.</p>
+
+    <!-- NEW: The License Plate Input Field Box (Like your BASIC INPUT statement) -->
+    <div class="input-group">
+        <label for="plateNumber">🚗 Vehicle License Plate (Optional):</label>
+        <input type="text" id="plateNumber" placeholder="e.g., AB 1234">
+    </div>
 
     <!-- The Trigger Button -->
     <button id="reportBtn" onclick="generateReport()">
@@ -61,53 +90,67 @@
     <p id="status"></p>
 
     <script>
-function generateReport() {
-    const statusText = document.getElementById("status");
-    statusText.innerText = "Fetching your location...";
+    function generateReport() {
+        const statusText = document.getElementById("status");
+        statusText.innerText = "Fetching your location...";
 
-    if (!navigator.geolocation) {
-        statusText.innerText = "Geolocation is not supported by your browser.";
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            try {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                statusText.innerText = "Location acquired! Opening email...";
-
-                const currentDateTime = new Date().toLocaleString(); 
-
-                // 🛑 Double-check that your testing email here is wrapped in quotes!
-                const emailTo = "james.ockenden@gmail.com"; 
-                
-                const subjectText = "Dangerous parking at " + currentDateTime;
-                const subject = encodeURIComponent(subjectText);
-                
-                // Using clean, standard strings with \n for line breaks to prevent script errors
-                let bodyText = "Dear Transport Complaints Unit,\n\n";
-                bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
-                bodyText += "📅 Date & Time: " + currentDateTime + "\n";
-                bodyText += "📍 Google Maps Location: https://google.com" + lat + "," + lon + "\n\n";
-                bodyText += "[Please type any additional vehicle details, like license plate or color, right here before sending]";
-
-                const emailBody = encodeURIComponent(bodyText);
-
-                // This triggers the native device email app
-                window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + emailBody;
-            } 
-            catch (error) {
-                statusText.innerText = "Error building email layout: " + error.message;
-            }
-        }, 
-        function(error) {
-            statusText.innerText = "Unable to retrieve your location. Error code: " + error.code;
+        if (!navigator.geolocation) {
+            statusText.innerText = "Geolocation is not supported by your browser.";
+            return;
         }
-    );
-}
-</script>
 
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                try {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    statusText.innerText = "Location acquired! Opening email...";
+
+                    const currentDateTime = new Date().toLocaleString(); 
+
+                    // NEW: Grab whatever text the user typed inside the input box
+                    const userPlate = document.getElementById("plateNumber").value.trim();
+                    
+                    // Create a string to hold the plate details if they typed one
+                    let plateDetailText = "Not provided";
+                    if (userPlate !== "") {
+                        plateDetailText = userPlate.toUpperCase(); // Converts to clean uppercase!
+                    }
+
+                    // 🛑 Remember to keep your testing email address here!
+                    const emailTo = "yourname@example.com"; 
+                    
+                    const subjectText = "Dangerous parking at " + currentDateTime;
+                    const subject = encodeURIComponent(subjectText);
+                    
+// Appending the captured plate details directly into the report template
+let bodyText = "Dear Transport Complaints Department,\n\n";
+bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
+bodyText += "🚗 Vehicle License Plate: " + plateDetailText + "\n";
+bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
+
+// NEW: Providing raw numerical coordinates first for strict government networks
+bodyText += "🌐 Raw Latitude: " + lat + "\n";
+bodyText += "🌐 Raw Longitude: " + lon + "\n\n";
+
+// CORRECTED: Perfect universal Google Maps formatting (?q=lat,lon)
+bodyText += "📍 Google Maps Link: https://google.com" + lat + "," + lon + "\n\n";
+bodyText += "[You can attach a photo of the vehicle directly inside your email app before hitting send]";
+
+                    const emailBody = encodeURIComponent(bodyText);
+
+                    window.location.href = "mailto:" + emailTo + "?subject=" + subject + "?&body=" + emailBody;
+                } 
+                catch (error) {
+                    statusText.innerText = "Error building email layout: " + error.message;
+                }
+            }, 
+            function(error) {
+                statusText.innerText = "Unable to retrieve your location. Error code: " + error.code;
+            }
+        );
+    }
+    </script>
 
 </body>
 </html>
