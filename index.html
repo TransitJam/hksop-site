@@ -1,0 +1,54 @@
+<body>
+
+    <h1>🚨 Instant Illegal Parking Reporter</h1>
+    <p>Tap the button below to fetch your current location and prepare a report email.</p>
+
+    <!-- 1. The Trigger Button -->
+    <button id="reportBtn" onclick="generateReport()" style="padding: 15px 30px; font-size: 18px; background-color: #e53e3e; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        📍 Generate Report Email
+    </button>
+
+    <!-- 2. Status message to tell the user what's happening -->
+    <p id="status" style="color: #4a5568; font-style: italic;"></p>
+
+    <!-- 3. The Logic Subroutine (JavaScript) -->
+    <script>
+    // Run the browser's built-in GPS locator
+navigator.geolocation.getCurrentPosition(
+    // Success Routine
+    function(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        statusText.innerText = "Location acquired! Opening email...";
+
+        // NEW: Grab the current date and time from the user's device clock
+        const currentDateTime = new Date().toLocaleString(); 
+
+        // Create the destination email, subject, and body templates
+        const emailTo = "tellme@1823.gov.hk"; 
+        const subject = encodeURIComponent("Report of Vehicle Obstruction / Illegal Parking");
+        
+        // Updated email template to include the automated timestamp
+        const bodyText = `Hello,
+
+I would like to report an illegal parking / vehicle obstruction incident.
+
+📅 Date & Time: ${currentDateTime}
+📍 Google Maps Location: https://google.com{lat},${lon}
+
+[Please type any additional vehicle details, like license plate or color, right here before sending]`;
+
+        const emailBody = encodeURIComponent(bodyText);
+
+        // This triggers the native device email app (The 'mailto' link)
+        window.location.href = `mailto:${emailTo}?subject=${subject}&body=${emailBody}`;
+    }, 
+    // Error Routine (if user blocks GPS access)
+    function() {
+        statusText.innerText = "Unable to retrieve your location. Please check your privacy permissions.";
+    }
+);
+
+    </script>
+
+</body>
