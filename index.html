@@ -101,11 +101,11 @@
 
     <!-- Navigation Menu Bar -->
     <nav>
-        <strong>🚨 Zap!</strong> | 
+        <strong>Zap!</strong> | 
         <a href="about.html">About Us</a>
     </nav>
 
-    <h1>🚨 Zap!</h1>
+    <h1>Zap!</h1>
     <h4>Instant Illegal Parking Reporter</h4>
     
      <!-- Explanation container card - Streamlined & citizen-focused -->
@@ -116,10 +116,11 @@
     </div>
 
 
-    <!-- The Violation Selection Dropdown Menu -->
+        <!-- Updated Selection Dropdown with explicit placeholder -->
     <div class="input-group">
         <label for="violationType">Type of Violation:</label>
         <select id="violationType">
+            <option value="Not specified">Select violation type...</option>
             <option value="Double Parking">Double Parking</option>
             <option value="Pavement Obstruction">Pavement Obstruction</option>
             <option value="Pedestrian Crossing Obstruction">Pedestrian Crossing Obstruction</option>
@@ -128,6 +129,7 @@
             <option value="Other Illegal Parking / Obstruction">Other</option>
         </select>
     </div>
+
 
     <!-- The Trigger Button -->
     <button id="reportBtn" onclick="generateReport()">
