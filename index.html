@@ -111,7 +111,7 @@
      <!-- Explanation container card - Streamlined & citizen-focused -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            Zap! safely captures your device's current <strong>location, time, and date</strong> and prepares an email report ready to send to the <strong>Transport Complaints Unit (TCU)</strong>.</p>
+            Zap! safely captures your device's current <strong>location, time, and date</strong> and prepares an email report ready to send to the <strong>Transport Complaints Unit</strong>.</p>
             <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;"> This is a static page with no analytics, tracking or data storage.</p>
     </div>
 
@@ -159,14 +159,14 @@
                 const currentDateTime = new Date().toLocaleString(); 
                 const selectedViolation = document.getElementById("violationType").value;
 
-                // 🛑 Keep your testing email address here while evaluating!
-                const emailTo = "james.ockenden@gmail.com"; 
+                // 🛑 Live Email Address to Transport Complaints Unit, no testing from now on!
+                const emailTo = "info@tcu.gov.hk"; 
                 
-                const subjectText = "Dangerous parking at " + currentDateTime;
+                const subjectText = "Illegal or dangerous parking at " + currentDateTime;
                 const subject = encodeURIComponent(subjectText);
                 
                 let bodyText = "Dear Transport Complaints Unit,\n\n";
-                bodyText += "I would like to report an incident of dangerous illegal parking.\n\n";
+                bodyText += "I would like to report an incident of illegal or dangerous parking.\n\n";
                 bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
                 bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
                 bodyText += "🌐 Raw Latitude: " + lat + "\n";
