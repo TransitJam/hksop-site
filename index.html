@@ -111,14 +111,12 @@
      <!-- Explanation container card - Data-focused & professional -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            <strong>📊 Data-Gathering Utility:</strong> Zap! is an objective data collection tool built to map systemic parking blackspots and pavement obstruction habits across Hong Kong. 
+            <strong>📊 Data-Gathering Utility:</strong> Zap! is an objective data collection tool built to map systemic parking blackspots across Hong Kong. 
         </p>
         <p style="margin: 8px 0 0 0; font-size: 14px; color: #2c5282; line-height: 1.5;">
-            By capturing your precise location and timestamp, it packages structured spatial data ready for the <strong>Transport Complaints Unit</strong> to analyze structural traffic patterns and support long-term parking reform. 
+            By capturing your precise location and timestamp, it packages spatial data ready for the <strong>Transport Complaints Unit</strong>, supporting long-term parking reform. 
         </p>
-        <p style="margin: 8px 0 0 0; font-size: 13px; color: #4a5568; font-weight: 500;">
-            🛡️ Privacy Lock: A completely static tool with zero backend tracking or analytics.
-        </p>
+        
     </div>
 
 
@@ -137,13 +135,19 @@
     </div>
 
 
-    <!-- The Trigger Button -->
+   <!-- The Trigger Button -->
     <button id="reportBtn" onclick="generateReport()">
         ⚡ ZAP! ILLEGAL PARKING
     </button>
 
+    <!-- NEW: Post-Action Privacy Anchor -->
+    <p style="margin-top: 15px; font-size: 13px; color: #718096; font-weight: 500; text-align: center;">
+        🛡️ Privacy Lock: A completely static tool with zero backend tracking or analytics.
+    </p>
+
     <!-- Status message area -->
     <p id="status"></p>
+
 
     <script>
     function generateReport() {
