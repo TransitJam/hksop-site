@@ -3,7 +3,7 @@
 <head>
        <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zap!</title>
+    <title>ZAP!</title>
 
     <!-- 📱 Progressive Web App Fullscreen Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <title>Zap!</title>
+    <title>ZAP!</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -101,17 +101,17 @@
 
     <!-- Navigation Menu Bar -->
     <nav>
-        <strong>Zap!</strong> | 
-        <a href="about.html">About Us</a>
+        <strong>ZAP!</strong> | 
+        <a href="about.html">About ZAP!</a>
     </nav>
 
     <h1>ZAP!</h1>
-    <h4>Crowdsourcing data for Hong Kong parking reform</h4>
+    <h4>Safer streets, one data point at a time</h4>
     
      <!-- Explanation container card - Data-focused & professional -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            <strong>ZAP!</strong> is a data collection tool mapping systemic parking blackspots across Hong Kong. The app prepares an email to the <strong>Transport Complaints Unit (TCU)</strong> for their statistical analysis. These reports do not lead to individual tickets or prosecutions.
+            <strong>ZAP!</strong> is a crowdsourcing tool mapping systemic pedestrian hazards and illegal parking across Hong Kong. Your location and timestamp data is compiled in an email to Transport Complaints Unit: simply choose a category (optional), press the button, then send the email. 
         </p>
     
         
@@ -120,7 +120,7 @@
 
         <!-- Updated Selection Dropdown with explicit placeholder -->
     <div class="input-group">
-        <label for="violationType">Type of Violation (optional):</label>
+        <label for="violationType">Type of Hazard (optional):</label>
         <select id="violationType">
             <option value="Not specified">Select violation type...</option>
             <option value="Double Parking">Double Parking</option>
@@ -128,7 +128,7 @@
             <option value="Pedestrian Crossing Obstruction">Pedestrian Crossing Obstruction</option>
             <option value="Restricted Zone Parking">Restricted Zone Parking</option>
             <option value="Unpaid Meter / Expired Meter">Unpaid Meter</option>
-            <option value="Other Illegal Parking / Obstruction">Other</option>
+            <option value="Other Pedestrian Hazard">Other Pedestrian Hazard</option>
         </select>
     </div>
 
@@ -140,7 +140,7 @@
 
     <!-- NEW: Post-Action Privacy Anchor -->
     <p style="margin-top: 15px; font-size: 13px; color: #718096; font-weight: 500; text-align: center;">
-        🛡️ Privacy Lock: A completely static tool with zero backend tracking or analytics.
+        🛡️ Privacy Guarantee: a completely static tool with no tracking or analytics.
     </p>
 
     <!-- Status message area -->
@@ -170,7 +170,12 @@
                 // 🛑 Live Email Address to Transport Complaints Unit, no testing from now on!
                 const emailTo = "info@tcu.gov.hk"; 
                 
-                const subjectText = "Illegal or dangerous parking at " + currentDateTime;
+                // Old Subject line format:
+// const subjectText = "Dangerous parking at " + currentDateTime;
+
+// NEW: Optimized Government-Indexed Subject Line
+const subjectText = "[Traffic Complaint: Vehicle Obstruction] " + selectedViolation + " - " + currentDateTime;
+
                 const subject = encodeURIComponent(subjectText);
                 
                 let bodyText = "Dear Transport Complaints Unit,\n\n";
