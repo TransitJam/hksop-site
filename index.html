@@ -8,7 +8,7 @@
     <!-- 📱 Progressive Web App Fullscreen Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Parking Rep">
+    <meta name="apple-mobile-web-app-title" content="Civil Rep">
     <meta name="theme-color" content="#f7fafc">
 
     <!-- 🎨 Your Custom Favicon & App Icon Configuration -->
@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <title>ZAP!</title>
+    <title>Zap-1823!</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -99,19 +99,13 @@
 </head>
 <body>
 
-    <!-- Navigation Menu Bar -->
-    <nav>
-        <strong>ZAP!</strong> | 
-        <a href="about.html">About ZAP!</a>
-    </nav>
-
-    <h1>ZAP!</h1>
+    <h1>ZAP 1823!</h1>
     <h4>Safer streets, one data point at a time</h4>
     
      <!-- Explanation container card - Data-focused & professional -->
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; margin: 20px auto 30px auto; text-align: left; border-radius: 0 6px 6px 0;">
         <p style="margin: 0; font-size: 15px; color: #2b6cb0; line-height: 1.6;">
-            <strong>ZAP!</strong> is a crowdsourcing tool mapping systemic pedestrian hazards and illegal parking across Hong Kong. Your location and timestamp data are compiled in an email to Transport Complaints Unit: simply choose a category (optional), press the button, then send the email. 
+            <strong>ZAP 1823!</strong> is a crowdsourcing tool mapping systemic pedestrian hazards across Hong Kong. Your location and timestamp data are compiled in an email to 1823; simply choose a category (optional), press the button, then send the email. 
         </p>
     
         
@@ -121,21 +115,33 @@
         <!-- Updated Selection Dropdown with explicit placeholder -->
     <div class="input-group">
         <label for="violationType">Type of Hazard (optional):</label>
-        <select id="violationType">
-            <option value="General">Select violation type...</option>
-            <option value="Double Parking">Double Parking</option>
-            <option value="Pavement Obstruction">Pavement Obstruction</option>
-            <option value="Pedestrian Crossing Obstruction">Pedestrian Crossing Obstruction</option>
-            <option value="Restricted Zone Parking">Restricted Zone Parking</option>
-            <option value="Unpaid Meter / Expired Meter">Unpaid Meter</option>
-            <option value="Other Pedestrian Hazard">Other Pedestrian Hazard</option>
+                <select id="violationType">
+            <!-- Universal Placeholder -->
+            <option value="General Public Amenity Issue">Select report type...</option>
+            
+            <!-- Smoking & Health Hazards -->
+            <option value="Illegal Indoor / Non-Smoking Area Smoking">Illegal Smoking</option>
+            
+            <!-- Sidewalk & Infrastructure Defects -->
+            <option value="Construction illegally impeding pedestrian passage">Construction obstruction</option>
+             <option value="Illegal or dangerous scaffolding">Illegal scaffolding</option>
+            
+            <!-- Environmental Hygiene & Cleanliness -->
+            <option value="Water Dripping from Building Air Conditioning Unit">AC Water Dripping</option>
+    
+            <option value="Accumulated Litter / Garbage Blackspot">Garbage Blackspot</option>
+            <option value="Dumping of Construction Waste / Mud Obstruction">Dumping of Construction Waste</option>
+            
+            <!-- General Catch-All -->
+            <option value="Other Systemic Public Space / Safety Hazard">Other Public Space Hazard</option>
         </select>
+
     </div>
 
 
    <!-- The Trigger Button -->
     <button id="reportBtn" onclick="generateReport()">
-        ⚡ ZAP! ILLEGAL PARKING
+        ⚡ ZAP 1823
     </button>
 
     <!-- NEW: Post-Action Privacy Anchor -->
@@ -167,23 +173,26 @@
                 const currentDateTime = new Date().toLocaleString(); 
                 const selectedViolation = document.getElementById("violationType").value;
 
-                // 🛑 Live Email Address to Transport Complaints Unit, no testing from now on!
-                const emailTo = "info@tcu.gov.hk"; 
+                // 🛑 Test Email Address 
+                const emailTo = "james.ockenden@gmail.com"; 
                 
                 // Old Subject line format:
 // const subjectText = "Dangerous parking at " + currentDateTime;
 
-// NEW: Optimized Government-Indexed Subject Line
-const subjectText = "[Traffic Complaint: Vehicle Obstruction] " + selectedViolation + " - " + currentDateTime;
+// Optimized Government-Indexed Subject Line
+const subjectText = "[1823 Public Report] " + selectedViolation + " - " + currentDateTime;
+
 
                 const subject = encodeURIComponent(subjectText);
                 
-                let bodyText = "Dear Transport Complaints Unit,\n\n";
-                bodyText += "I would like to report an incident of illegal or dangerous parking.\n\n";
-                bodyText += "⚠️ Violation Category: " + selectedViolation + "\n";
-                bodyText += "📅 Date & Time: " + currentDateTime + "\n\n";
-                bodyText += "🌐 Raw Latitude: " + lat + "\n";
-                bodyText += "🌐 Raw Longitude: " + lon;
+                let bodyText = "Dear 1823 Team,\n\n";
+bodyText += "Please log the following public space safety hazard for investigation and remedial action:\n\n";
+bodyText += "📋 Incident Category: " + selectedViolation + "\n";
+bodyText += "📅 Logged Timestamp: " + currentDateTime + "\n\n";
+bodyText += "🌐 GPS Latitude: " + lat + "\n";
+bodyText += "🌐 GPS Longitude: " + lon + "\n\n";
+bodyText += "Please transfer this data package to the appropriate enforcement or municipal maintenance department for action under their respective statutory ordinance.";
+
 
                 const emailBody = encodeURIComponent(bodyText);
 
